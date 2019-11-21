@@ -16,7 +16,7 @@ class m191121_031311_fk_user_city_id extends Migration
         $this->addForeignKey(
             '{{%fk_user_city_id}}',
             '{{%user}}',
-            'avatar_id',
+            'city_id',
             '{{%cities}}',
             'id',
             'CASCADE'

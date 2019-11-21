@@ -1,10 +1,10 @@
 <?php
-namespace app\fronend\controllers;
+namespace frontend\controllers;
 
 use yii\rest\ActiveController;
 
-class AuthorController extends ActiveController
+class TestController extends ActiveController
 {
-    public $modelClass = 'app\backend\models\Author';
+    public $modelClass = 'app\models\User';
 }
 
