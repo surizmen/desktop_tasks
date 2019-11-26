@@ -42,7 +42,7 @@ return [
             'showScriptName' => false,
             'rules' => [
                 'class'=> 'yii\rest\UrlRule',
-                'controller' => 'test','tasks',
+                'controller' => 'user','tasks',
             ],
         ],
 
