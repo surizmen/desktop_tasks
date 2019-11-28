@@ -12,7 +12,7 @@ use Yii;
  * @property string $photos_date_upload
  *
  * @property Tasks[] $tasks
- * @property User[] $users
+ * @property Users[] $users
  */
 class Photos extends \yii\db\ActiveRecord
 {
@@ -61,6 +61,6 @@ class Photos extends \yii\db\ActiveRecord
      */
     public function getUsers()
     {
-        return $this->hasMany(User::className(), ['avatar_id' => 'photos_id']);
+        return $this->hasMany(Users::className(), ['avatar_id' => 'photos_id']);
     }
 }

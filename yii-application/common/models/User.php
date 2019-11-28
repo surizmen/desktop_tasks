@@ -1,6 +1,9 @@
 <?php
 namespace common\models;
 
+use app\models\Cities;
+use app\models\Photos;
+use app\models\Tasks;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -18,9 +21,13 @@ use yii\web\IdentityInterface;
  * @property string $email
  * @property string $auth_key
  * @property integer $status
- * @property integer $created_at
- * @property integer $updated_at
+ * @property int $created_at
+ * @property int $updated_at
  * @property string $password write-only password
+ * @property Tasks[] $tasks
+ * @property Cities $city
+ * @property Photos $avatar
+ *
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -55,8 +62,20 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
+            [['email'], 'required'],
+            [['city_id', 'avatar_id', 'status'], 'default', 'value' => null],
+            [['city_id', 'avatar_id', 'status'], 'integer'],
+            [['description', 'telephone'], 'string'],
+            [['username', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
+            [['auth_key','verification_token'], 'string', 'max' => 32],
+            ['email', 'email'],
+            [['password_reset_token'], 'unique'],
+            [['username'], 'unique'],
+            [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::className(), 'targetAttribute' => ['city_id' => 'id']],
+            [['avatar_id'], 'exist', 'skipOnError' => true, 'targetClass' => Photos::className(), 'targetAttribute' => ['avatar_id' => 'photos_id']],
         ];
     }
+
 
     /**
      * {@inheritdoc}
@@ -71,7 +90,23 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
+        return static::findOne(['verification_token' => $token]);
+    }
+    //Функция авторизации
+    public function login()
+    {
+        $user = self::findOne(['email' => $this->email]);
+        if($this->validate()) {
+            $user->verification_token = Yii::$app->security->generateRandomString();
+            $user->save();
+            return [
+                'token' => $user->verification_token
+            ];
+        } else {
+            return [
+                'errors' => $this->errors
+            ];
+        }
     }
 
     /**
@@ -206,4 +241,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = null;
     }
+
+
 }

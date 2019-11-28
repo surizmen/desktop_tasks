@@ -22,7 +22,7 @@ use Yii;
  * @property Cities $tasksCity
  * @property Photos $tasksPhoto
  * @property Status $tasksStatusNumber
- * @property User $tasksUser
+ * @property Users $tasksUser
  */
 class Tasks extends \yii\db\ActiveRecord
 {
@@ -50,7 +50,7 @@ class Tasks extends \yii\db\ActiveRecord
             [['tasks_city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::className(), 'targetAttribute' => ['tasks_city_id' => 'id']],
             [['tasks_photo_id'], 'exist', 'skipOnError' => true, 'targetClass' => Photos::className(), 'targetAttribute' => ['tasks_photo_id' => 'photos_id']],
             [['tasks_status_number'], 'exist', 'skipOnError' => true, 'targetClass' => Status::className(), 'targetAttribute' => ['tasks_status_number' => 'id']],
-            [['tasks_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['tasks_user_id' => 'id']],
+            [['tasks_user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['tasks_user_id' => 'id']],
         ];
     }
 
@@ -110,6 +110,6 @@ class Tasks extends \yii\db\ActiveRecord
      */
     public function getTasksUser()
     {
-        return $this->hasOne(User::className(), ['id' => 'tasks_user_id']);
+        return $this->hasOne(Users::className(), ['id' => 'tasks_user_id']);
     }
 }

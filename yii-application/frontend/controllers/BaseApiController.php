@@ -9,6 +9,8 @@ class BaseApiController extends ActiveController
     /**
      * @var array
      */
+
+
     public $serializer = [
         'class' => 'yii\rest\Serializer',
         'collectionEnvelope' => 'items',
@@ -22,6 +24,7 @@ class BaseApiController extends ActiveController
      * @return array
      */
     public function behaviors() {
+
         return [
             'contentNegotiator' => [
                 'class' => \yii\filters\ContentNegotiator::class,

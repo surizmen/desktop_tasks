@@ -22,7 +22,7 @@ return [
         ],
         'session' => [
             // this is the name of the session cookie used for login on the frontend
-            'name' => 'advanced-frontend',
+            'useCookies' => 'false',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -37,12 +37,20 @@ return [
             'errorAction' => 'site/error',
         ],
 
+
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                'class'=> 'yii\rest\UrlRule',
-                'controller' => 'user','tasks',
+                    'POST /auth' => 'user/login',
+                    [
+                        'class'=> 'yii\rest\UrlRule',
+                        'controller' => 'users'
+                    ],
+                [
+                    'class'=> 'yii\rest\UrlRule',
+                    'controller' => 'photo'
+                ],
             ],
         ],
 
