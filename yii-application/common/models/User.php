@@ -9,6 +9,7 @@ use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use yii\helpers\ArrayHelper;
 
 /**
  * User model
@@ -68,7 +69,7 @@ class User extends ActiveRecord implements IdentityInterface
             [['description', 'telephone'], 'string'],
             [['username', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
             [['auth_key','verification_token'], 'string', 'max' => 32],
-            ['email', 'email'],
+            ['email', 'email', 'message' => 'email не валидный!'],
             [['password_reset_token'], 'unique'],
             [['username'], 'unique'],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::className(), 'targetAttribute' => ['city_id' => 'id']],
@@ -92,22 +93,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return static::findOne(['verification_token' => $token]);
     }
-    //Функция авторизации
-    public function login()
-    {
-        $user = self::findOne(['email' => $this->email]);
-        if($this->validate()) {
-            $user->verification_token = Yii::$app->security->generateRandomString();
-            $user->save();
-            return [
-                'token' => $user->verification_token
-            ];
-        } else {
-            return [
-                'errors' => $this->errors
-            ];
-        }
-    }
+
 
     /**
      * Finds user by username
@@ -241,6 +227,28 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = null;
     }
-
+    //Функция авторизации
+    public function login($password)
+    {
+        if ($user = self::findOne(['email' => $this->email])){
+            if (Yii::$app->security->validatePassword($password, $user->password_hash)){
+            if($this->validate()) {
+                $user->verification_token = Yii::$app->security->generateRandomString();
+                $user->save();
+                return [
+                    'token' => $user->verification_token,
+                ];
+            } else {
+                return [
+                    'errors' => $this->errors
+                ];
+            }}
+        else{
+            return 'Неверный эмэил или пароль';
+        }}
+        else {
+            return 'Невалидный эмеил';
+        }
+    }
 
 }

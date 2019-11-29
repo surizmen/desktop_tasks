@@ -21,7 +21,6 @@ class PhotoController extends BaseApiController
         ];
         $behaviors['authenticator'] = [
             'class' => \yii\filters\auth\HttpBearerAuth::className(),
-            'only'=>['update','create','delete']
         ];
         return $behaviors;
     }

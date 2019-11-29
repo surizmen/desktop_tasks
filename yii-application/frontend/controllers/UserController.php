@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 use app\models\Users;
 use common\models\User;
+use http\Message;
 use Yii;
 use yii\filters\AccessControl;
 use yii\helpers\Url;
@@ -9,6 +10,7 @@ use yii\helpers\VarDumper;
 use yii\rest\ActiveController;
 use frontend\models\SignupForm;
 use yii\web\ServerErrorHttpException;
+use yii\db\Query;
 
 class UserController extends BaseApiController
 {
@@ -21,12 +23,8 @@ class UserController extends BaseApiController
 
         // отключить действия "delete" и "create"
         unset($actions['index']);
-        unset($actions['view']);
         unset($actions['create']);
-        unset($actions['update']);
         unset($actions['delete']);
-
-
         return $actions;
     }
 
@@ -54,7 +52,8 @@ class UserController extends BaseApiController
         $user->email = Yii::$app->request->post('email');
         $user->setPassword(Yii::$app->request->post('password'));
         $user->generateAuthKey();
-        if (Yii::$app->request->post('password')!== null){
+        if (Yii::$app->request->post('email')!== ''){
+        if (Yii::$app->request->post('password')!== ''){
             if($user->validate()){
                 if($user->save()){
                     return 'Регистрация прошла успешно';
@@ -62,15 +61,26 @@ class UserController extends BaseApiController
             }
             return ['message' => $user->firstErrors];
         }
-
-        return ['message' => 'Не ввёл пароль!'];}
+        else {return ['message' => 'Не ввёл пароль!'];}}
+        else {
+           return ['message' => 'Не ввёл email!'];
+        }
+    }
 
     public function actionLogin()
     {
         $user = new User();
         $user->load(Yii::$app->request->post(),'');
-        $user->login();
-        return $user->login();
+        $password = Yii::$app->request->post('password');
+        if (Yii::$app->request->post('email')!== ''){
+            if (Yii::$app->request->post('password')!== ''){
+                $user->login($password);
+                return $user->login($password);}
+            else {
+                return ['message' => 'Заполните пароль'];
+            }}
+        else {return ['message' => 'Заполните email'];}
+
     }
 
 }
