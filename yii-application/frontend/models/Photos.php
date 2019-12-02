@@ -30,9 +30,9 @@ class Photos extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['photos_path', 'photos_date_upload'], 'required'],
+            [['photos_path', 'created_at'], 'required'],
             [['photos_path'], 'string'],
-            [['photos_date_upload'], 'safe'],
+            [['created_at'], 'integer'],
         ];
     }
 

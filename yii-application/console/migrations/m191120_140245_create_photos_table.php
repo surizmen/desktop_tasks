@@ -15,7 +15,7 @@ class m191120_140245_create_photos_table extends Migration
         $this->createTable('{{%photos}}', [
             'photos_id' => $this->primaryKey(),
             'photos_path' => $this->text()->notNull(),
-            'photos_date_upload' => $this->datetime()->notNull(),
+            'created_at' => $this->integer()->notNull(),
         ]);
     }
 
