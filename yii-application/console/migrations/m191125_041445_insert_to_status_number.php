@@ -12,7 +12,7 @@ class m191125_041445_insert_to_status_number extends Migration
      */
     public function safeUp()
     {
-        $this->batchInsert('{{%status}}',['status_name'], [['Активное'],['Закрытое']]);
+        $this->batchInsert('{{%status}}',['status_name','status_number'], [['Активное',1],['Закрытое',2]]);
     }
 
     /**

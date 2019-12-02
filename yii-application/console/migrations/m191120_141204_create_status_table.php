@@ -15,6 +15,7 @@ class m191120_141204_create_status_table extends Migration
         $this->createTable('{{%status}}', [
             'id' => $this->primaryKey(),
             'status_name' => $this->text()->notnull(),
+            'status_number' => $this->integer()->notnull()->unique(),
         ]);
     }
 

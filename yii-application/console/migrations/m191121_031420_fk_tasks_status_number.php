@@ -18,7 +18,7 @@ class m191121_031420_fk_tasks_status_number extends Migration
             '{{%tasks}}',
             'tasks_status_number',
             '{{%status}}',
-            'id',
+            'status_number',
             'CASCADE'
         );
     }

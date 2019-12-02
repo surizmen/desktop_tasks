@@ -69,8 +69,6 @@ class UserController extends BaseApiController
 //Экшн Авторизации
     public function actionLogin()
     {
-        // Тестовые Данные для входа
-        //email: admin@admin.ru password: admin
         $user = new User();
         $user->load(Yii::$app->request->post(),'');
         $password = Yii::$app->request->post('password');
