@@ -102,7 +102,7 @@ class Tasks extends \yii\db\ActiveRecord
      */
     public function getTasksStatusNumber()
     {
-        return $this->hasOne(Status::className(), ['id' => 'tasks_status_number']);
+        return $this->hasOne(Status::className(), ['status_number' => 'tasks_status_number']);
     }
 
     /**

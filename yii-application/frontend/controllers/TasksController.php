@@ -14,13 +14,14 @@ class TasksController extends BaseApiController
             'class' => \yii\filters\Cors::className(),
             'cors' => [
                 'Origin' => '*',
-                'Access-Control-Request-Method' => ['GET', 'OPTIONS', 'PATCH', 'POST', 'PUT'],
+                'Access-Control-Request-Method' => ['GET','OPTIONS', 'PATCH', 'POST', 'PUT'],
                 'Access-Control-Request-Headers' => ['Authorization', 'Content-Type'],
                 'Access-Control-Max-Age' => 3600
             ]
         ];
         $behaviors['authenticator'] = [
             'class' => \yii\filters\auth\HttpBearerAuth::className(),
+            'only'=>['update','create','delete']
         ];
         return $behaviors;
     }

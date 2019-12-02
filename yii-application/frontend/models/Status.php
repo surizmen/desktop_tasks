@@ -30,6 +30,7 @@ class Status extends \yii\db\ActiveRecord
         return [
             [['status_name'], 'required'],
             [['status_name'], 'string'],
+            [['status_number'], 'integer'],
         ];
     }
 
@@ -41,6 +42,7 @@ class Status extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'status_name' => 'Status Name',
+            'status_number' => 'Status number',
         ];
     }
 
@@ -49,6 +51,6 @@ class Status extends \yii\db\ActiveRecord
      */
     public function getTasks()
     {
-        return $this->hasMany(Tasks::className(), ['tasks_status_number' => 'id']);
+        return $this->hasMany(Tasks::className(), ['tasks_status_number' => 'status_number']);
     }
 }
