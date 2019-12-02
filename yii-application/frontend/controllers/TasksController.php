@@ -5,6 +5,7 @@ use yii\data\ActiveDataProvider;
 use yii\db\Query;
 use yii\rest\ActiveController;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 class TasksController extends BaseApiController
 {
@@ -44,10 +45,11 @@ class TasksController extends BaseApiController
         return Yii::createObject(
             [
                 'class' => ActiveDataProvider::class,
-                'query' => Tasks::find()->where(['tasks_status_number' => 1])
+                'query' => Tasks::find()->select(['tasks_title','tasks_price','tasks_date_upload','tasks_photo_id'])->where(['tasks_status_number' => 1])
             ]
         );
     }
+
 
 
 }
