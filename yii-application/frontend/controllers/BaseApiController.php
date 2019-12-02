@@ -10,7 +10,7 @@ class BaseApiController extends ActiveController
      * @var array
      */
 
-
+//вЫВОД ДОПОЛНИТЕЛЬНЫХ МЕТАДАННЫХ
     public $serializer = [
         'class' => 'yii\rest\Serializer',
         'collectionEnvelope' => 'items',
@@ -24,7 +24,7 @@ class BaseApiController extends ActiveController
      * @return array
      */
     public function behaviors() {
-
+//ФОрмат данных json
         return [
             'contentNegotiator' => [
                 'class' => \yii\filters\ContentNegotiator::class,

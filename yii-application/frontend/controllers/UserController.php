@@ -21,7 +21,7 @@ class UserController extends BaseApiController
     {
         $actions = parent::actions();
 
-        // отключить действия "delete" и "create"
+        // отключить действия "delete" и "create" и "index"
         unset($actions['index']);
         unset($actions['create']);
         unset($actions['delete']);
@@ -31,7 +31,7 @@ class UserController extends BaseApiController
     public function behaviors()
     {
         $behaviors = parent::behaviors();
-
+        // НАследуем поведение родителя
         $behaviors['corsFilter'] = [
             'class' => \yii\filters\Cors::className(),
             'cors' => [
@@ -44,7 +44,7 @@ class UserController extends BaseApiController
 
         return $behaviors;
     }
-
+//Экшн Регистрации
     public function actionSignup()
     {
 
@@ -66,9 +66,11 @@ class UserController extends BaseApiController
            return ['message' => 'Не ввёл email!'];
         }
     }
-
+//Экшн Авторизации
     public function actionLogin()
     {
+        // Тестовые Данные для входа
+        //email: admin@admin.ru password: admin
         $user = new User();
         $user->load(Yii::$app->request->post(),'');
         $password = Yii::$app->request->post('password');
