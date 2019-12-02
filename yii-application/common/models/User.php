@@ -48,12 +48,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * {@inheritdoc}
      */
-    public function behaviors()
-    {
-        return [
-            TimestampBehavior::className(),
-        ];
-    }
+
 
     /**
      * {@inheritdoc}
@@ -77,7 +72,12 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
-
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }
     /**
      * {@inheritdoc}
      */

@@ -3,14 +3,14 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "photos".
  *
  * @property int $photos_id
  * @property string $photos_path
- * @property string $photos_date_upload
- *
  * @property Tasks[] $tasks
  * @property Users[] $users
  */
@@ -30,9 +30,8 @@ class Photos extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['photos_path', 'created_at'], 'required'],
-            [['photos_path'], 'string'],
-            [['created_at'], 'integer'],
+            [['photos_path'], 'required'],
+            [['photos_path'], 'string']
         ];
     }
 
@@ -44,7 +43,6 @@ class Photos extends \yii\db\ActiveRecord
         return [
             'photos_id' => 'Photos ID',
             'photos_path' => 'Photos Path',
-            'photos_date_upload' => 'Photos Date Upload',
         ];
     }
 

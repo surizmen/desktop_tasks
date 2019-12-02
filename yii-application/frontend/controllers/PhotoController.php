@@ -9,7 +9,6 @@ class PhotoController extends BaseApiController
     public $modelClass = 'app\models\Photos';
     public function behaviors() {
         $behaviors = parent::behaviors();
-
         $behaviors['corsFilter'] = [
             'class' => \yii\filters\Cors::className(),
             'cors' => [
