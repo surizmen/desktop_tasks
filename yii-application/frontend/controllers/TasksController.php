@@ -34,7 +34,7 @@ class TasksController extends BaseApiController
         $behaviors['authenticator'] = [
             'class' => \yii\filters\auth\HttpBearerAuth::className(),
             //  действия "delete" и "create" и "index" только для авторизированных пользователей
-            'only'=>['update','create','delete']
+            'only'=>['update','create','delete','closetask']
         ];
         return $behaviors;
 

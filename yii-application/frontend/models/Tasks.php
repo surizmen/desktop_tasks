@@ -122,7 +122,7 @@ class Tasks extends \yii\db\ActiveRecord
                     if ($task->tasks_status_number !== 2){
                         $task->tasks_status_number = 2;
                         $task->save();
-                        return $task;
+                        return 'Вы закрыли объявление';
                     }
                     else return 'Уже закрыто';
                 }
