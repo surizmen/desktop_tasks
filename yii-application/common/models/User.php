@@ -231,7 +231,7 @@ class User extends ActiveRecord implements IdentityInterface
     //Функция авторизации
     public function login($password)
     {
-        if ($user = self::findOne(['email' => $this->email])){
+        if ($user = User::findOne(['email' => $this->email])){
             if (Yii::$app->security->validatePassword($password, $user->password_hash)){
             if($this->validate()) {
                 $user->verification_token = Yii::$app->security->generateRandomString();
@@ -251,5 +251,13 @@ class User extends ActiveRecord implements IdentityInterface
             return 'Невалидный эмеил';
         }
     }
+    public function fields()
+    {
+        $fields = parent::fields();
 
+        // remove fields that contain sensitive information
+        unset($fields['auth_key'], $fields['password_hash'], $fields['password_reset_token']);
+
+        return $fields;
+    }
 }

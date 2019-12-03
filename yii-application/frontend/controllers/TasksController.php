@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 use app\models\Tasks;
+use common\models\User;
 use yii\data\ActiveDataProvider;
 use yii\db\Query;
 use yii\rest\ActiveController;
@@ -57,6 +58,15 @@ class TasksController extends BaseApiController
         $token = Yii::$app->request->post('token');
         $id = Yii::$app->request->post('id');
         return $task->close_task($token, $id);
+    }
+
+    public function actionGettask(){
+        $get_id = Yii::$app->request->get('id');
+        $task = Tasks::findOne(['tasks_id' => $get_id]);
+        $user = User::findOne(['id'=> $task->tasks_user_id]);
+        unset($task['tasks_id'],$task['tasks_status_number'],
+            $task['tasks_user_id'],$user['id'],$user['updated_at'],$user['city_id'],$user['status'],$user['verification_token']);
+        return [$task,$user];
     }
 
 

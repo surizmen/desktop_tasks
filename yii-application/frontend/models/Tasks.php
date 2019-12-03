@@ -111,7 +111,7 @@ class Tasks extends \yii\db\ActiveRecord
      */
     public function getTasksUser()
     {
-        return $this->hasOne(Users::className(), ['id' => 'tasks_user_id']);
+        return $this->hasOne(User::className(), ['id' => 'tasks_user_id']);
     }
 
     public function close_task($token,$id){
@@ -134,4 +134,7 @@ class Tasks extends \yii\db\ActiveRecord
             return 0;
         }
     }
+
+
+
 }
