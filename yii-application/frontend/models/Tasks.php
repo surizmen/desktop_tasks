@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use common\models\User;
 use Yii;
 
 /**
@@ -111,5 +112,26 @@ class Tasks extends \yii\db\ActiveRecord
     public function getTasksUser()
     {
         return $this->hasOne(Users::className(), ['id' => 'tasks_user_id']);
+    }
+
+    public function close_task($token,$id){
+        $polz = new User();
+        if ($user = $polz::findOne(["verification_token" => $token])){
+            if ($task = self::findOne(["tasks_id" => $id])){
+                if ($task->tasks_user_id == $user->id){
+                    if ($task->tasks_status_number !== 2){
+                        $task->tasks_status_number = 2;
+                        $task->save();
+                        return $task;
+                    }
+                    else return 'Уже закрыто';
+                }
+            else return 'У Вас нет прав закрыть это объявление';
+            }
+            else return 'Не передал айди поста';
+        }
+        else {
+            return 0;
+        }
     }
 }

@@ -5,7 +5,6 @@ use yii\data\ActiveDataProvider;
 use yii\db\Query;
 use yii\rest\ActiveController;
 use Yii;
-use yii\helpers\ArrayHelper;
 
 class TasksController extends BaseApiController
 {
@@ -40,16 +39,25 @@ class TasksController extends BaseApiController
         return $behaviors;
 
     }
-    //Переопределение дата провайдера где выводи обЪявления только со статусом АКтивные
+    //Переопределение дата провайдера где выводит обЪявления только со статусом АКтивные с сортировкой даты по убыванию
     public function get_tasks(){
+        $query = Tasks::find()->select(['tasks_title','tasks_price','tasks_date_upload','tasks_photo_id'])->where(['tasks_status_number' => 1])
+            ->orderBy(['tasks_date_upload' => SORT_DESC,]);
         return Yii::createObject(
             [
                 'class' => ActiveDataProvider::class,
-                'query' => Tasks::find()->select(['tasks_title','tasks_price','tasks_date_upload','tasks_photo_id'])->where(['tasks_status_number' => 1])
+                'query' => $query
             ]
         );
     }
 
+
+    public function actionClosetask(){
+        $task = new Tasks();
+        $token = Yii::$app->request->post('token');
+        $id = Yii::$app->request->post('id');
+        return $task->close_task($token, $id);
+    }
 
 
 }

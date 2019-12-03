@@ -9,6 +9,7 @@ use yii\helpers\Url;
 use yii\helpers\VarDumper;
 use yii\rest\ActiveController;
 use frontend\models\SignupForm;
+use yii\web\IdentityInterface;
 use yii\web\ServerErrorHttpException;
 use yii\db\Query;
 
@@ -82,6 +83,8 @@ class UserController extends BaseApiController
         else {return ['message' => 'Заполните email'];}
 
     }
+
+
 
 }
 
