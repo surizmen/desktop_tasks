@@ -56,12 +56,18 @@ class UserController extends BaseApiController
         $user->generateAuthKey();
         if (Yii::$app->request->post('email')!== ''){
         if (Yii::$app->request->post('password')!== ''){
-            if($user->validate()){
+            if (User::findOne(["email" => $user->email])){
+                return 'Такой email уже существует!';
+
+            } else {            if($user->validate()){
                 if($user->save()){
                     return 'Регистрация прошла успешно';
                 }
+                return ['message' => $user->firstErrors];
             }
-            return ['message' => $user->firstErrors];
+                }
+
+
         }
         else {return ['message' => 'Не ввёл пароль!'];}}
         else {
