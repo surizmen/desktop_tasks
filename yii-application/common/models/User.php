@@ -5,11 +5,9 @@ use app\models\Cities;
 use app\models\Photos;
 use app\models\Tasks;
 use Yii;
-use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
-use yii\helpers\ArrayHelper;
 
 /**
  * User model

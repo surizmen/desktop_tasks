@@ -1,11 +1,7 @@
 <?php
 
 namespace frontend\controllers;
-
-
-use yii\db\ActiveRecord;
 use yii\rest\ActiveController;
-use yii\behaviors\TimestampBehavior;
 
 class BaseApiController extends ActiveController
 {

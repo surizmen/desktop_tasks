@@ -4,12 +4,7 @@ use app\models\Tasks;
 use common\models\User;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveRecord;
-use yii\db\ActiveRecordInterface;
-use yii\db\Query;
-use yii\rest\ActiveController;
 use Yii;
-use yii\web\NotFoundHttpException;
-use yii\web\ServerErrorHttpException;
 
 class TasksController extends BaseApiController
 {
@@ -23,6 +18,9 @@ class TasksController extends BaseApiController
         //Переопределение дата провайдера
         $actions['index']['prepareDataProvider']=[$this,'get_tasks'];
         unset($actions['update']);
+        unset($actions['options']);
+        unset($actions['delete']);
+        unset($actions['view']);
         return $actions;
     }
 
@@ -79,15 +77,12 @@ class TasksController extends BaseApiController
     }
 
     public function actionGetmytasks(){
-
-
         $polz = new User();
         $get_token = $polz->Getauthtoen();
         $user = $polz::findOne(["verification_token" => $get_token]);
         $task = Tasks::find()->select(['tasks_title','tasks_body','tasks_photo_id','tasks_price','tasks_category_number','tasks_city_id','tasks_status_number'])->where(['tasks_user_id' => $user->id])->all();
         return [$task];
     }
-
 
 
     public function actionUpdate($id)
@@ -123,6 +118,7 @@ class TasksController extends BaseApiController
         }
         return $model;
     }
+
 
 
 

@@ -1,19 +1,9 @@
 <?php
 namespace frontend\controllers;
-use app\models\Tasks;
-use app\models\Users;
 use common\models\User;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\db\ActiveRecord;
-use yii\filters\AccessControl;
-use yii\helpers\Url;
-use yii\helpers\VarDumper;
-use yii\rest\ActiveController;
-use frontend\models\SignupForm;
-use yii\web\IdentityInterface;
-use yii\web\ServerErrorHttpException;
-use yii\db\Query;
 
 class UserController extends BaseApiController
 {
@@ -29,6 +19,7 @@ class UserController extends BaseApiController
         unset($actions['create']);
         unset($actions['delete']);
         unset($actions['update']);
+        unset($actions['option']);
         return $actions;
     }
 
