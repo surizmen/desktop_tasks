@@ -1,9 +1,11 @@
 <?php
 namespace frontend\controllers;
+use app\models\Tasks;
 use app\models\Users;
 use common\models\User;
-use http\Message;
 use Yii;
+use yii\base\InvalidConfigException;
+use yii\db\ActiveRecord;
 use yii\filters\AccessControl;
 use yii\helpers\Url;
 use yii\helpers\VarDumper;
@@ -26,6 +28,7 @@ class UserController extends BaseApiController
         unset($actions['index']);
         unset($actions['create']);
         unset($actions['delete']);
+        unset($actions['update']);
         return $actions;
     }
 
@@ -42,9 +45,16 @@ class UserController extends BaseApiController
                 'Access-Control-Max-Age' => 3600
             ]
         ];
+        $behaviors['authenticator'] = [
+            'class' => \yii\filters\auth\HttpBearerAuth::className(),
+            //  действия "update" только для авторизированных пользователей
+            'only'=>['update']
+        ];
 
         return $behaviors;
     }
+
+
 //Экшн Регистрации
     public function actionSignup()
     {
@@ -82,6 +92,22 @@ class UserController extends BaseApiController
             }}
         else {return ['message' => 'Заполните email'];}
 
+    }
+
+//Функция обновления информации о пользователе
+    public function actionUpdate()
+    {
+        /* @var $model ActiveRecord */
+        $polz = new User();
+        $token = $polz->Getauthtoen();
+        $user = $polz::findOne(["verification_token" => $token]);
+        $user->scenario = User::SCENARIO_USERUPDATE;
+        try {
+            $user->load(Yii::$app->getRequest()->getBodyParams(), '');
+        } catch (InvalidConfigException $e) {
+        }
+        $user->save();
+        return $user;
     }
 
 

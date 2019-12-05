@@ -35,7 +35,7 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_DELETED = 0;
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
-
+    const SCENARIO_USERUPDATE = 'userupdate';
 
     /**
      * {@inheritdoc}
@@ -76,6 +76,13 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             TimestampBehavior::className(),
+        ];
+    }
+    public function scenarios()
+    {
+
+        return [
+            self::SCENARIO_USERUPDATE => ['username','city_id','telephone','description','avatar_id'],
         ];
     }
     /**
@@ -256,8 +263,15 @@ class User extends ActiveRecord implements IdentityInterface
         $fields = parent::fields();
 
         // remove fields that contain sensitive information
-        unset($fields['auth_key'], $fields['password_hash'], $fields['password_reset_token']);
+        unset($fields['auth_key'], $fields['password_hash'], $fields['password_reset_token'],$fields['verification_token']);
 
         return $fields;
     }
+    public function Getauthtoen(){
+        $auth_token = $_SERVER['HTTP_AUTHORIZATION'];
+        preg_match('/Bearer\s(\S+)/', $auth_token, $matches);
+        return $matches[1];
+    }
+
+
 }
