@@ -78,10 +78,9 @@ class User extends ActiveRecord implements IdentityInterface
     }
     public function scenarios()
     {
-
-        return [
-            self::SCENARIO_USERUPDATE => ['username','city_id','telephone','description','avatar_id'],
-        ];
+        $scenarios = parent::scenarios();
+        $scenarios['self::SCENARIO_USERUPDATE '] = ['username','city_id','telephone','description','avatar_id'];
+        return $scenarios;
     }
     /**
      * {@inheritdoc}
@@ -199,6 +198,7 @@ class User extends ActiveRecord implements IdentityInterface
      * Generates password hash from password and sets it to the model
      *
      * @param string $password
+     * @throws \yii\base\Exception
      */
     public function setPassword($password)
     {

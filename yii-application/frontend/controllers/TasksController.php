@@ -21,6 +21,7 @@ class TasksController extends BaseApiController
         unset($actions['options']);
         unset($actions['delete']);
         unset($actions['view']);
+        unset($actions['create']);
         return $actions;
     }
 
@@ -84,6 +85,12 @@ class TasksController extends BaseApiController
         return [$task];
     }
 
+    public function actionCreate(){
+        $model = new Tasks();
+        $model->load(Yii::$app->getRequest()->getBodyParams(), '');
+        $model->save();
+        return $model;
+    }
 
     public function actionUpdate($id)
     {

@@ -30,6 +30,7 @@ use yii\web\NotFoundHttpException;
 class Tasks extends \yii\db\ActiveRecord
 {
     const SCENARIO_UPDATE = 'update';
+    const SCENARIO_CREATE = 'update';
 
     /**
      * {@inheritdoc}
@@ -60,10 +61,9 @@ class Tasks extends \yii\db\ActiveRecord
     }
     public function scenarios()
     {
-
-        return [
-            self::SCENARIO_UPDATE => ['tasks_price','tasks_title','tasks_body','tasks_category_number','tasks_price','tasks_photo_id'],
-        ];
+        $scenarios = parent::scenarios();
+        $scenarios['self::SCENARIO_UPDATE'] = ['tasks_price','tasks_title','tasks_body','tasks_category_number','tasks_price','tasks_photo_id'];
+        return $scenarios;
     }
     /**
      * {@inheritdoc}
