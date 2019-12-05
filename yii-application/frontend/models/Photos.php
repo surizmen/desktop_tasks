@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "photos".
@@ -23,7 +24,7 @@ class Photos extends \yii\db\ActiveRecord
     {
         return 'photos';
     }
-
+    public $file;
     /**
      * {@inheritdoc}
      */
@@ -31,7 +32,8 @@ class Photos extends \yii\db\ActiveRecord
     {
         return [
             [['photos_path'], 'required'],
-            [['photos_path'], 'string']
+            [['photos_path'], 'string'],
+            [['file'], 'file','skipOnEmpty' => false, 'extensions' => 'png, jpg' ]
         ];
     }
 

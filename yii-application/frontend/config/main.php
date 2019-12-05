@@ -43,6 +43,7 @@ return [
             'showScriptName' => false,
             'rules' => [
                     'POST /auth' => 'user/login',
+                    'POST /image' => 'photo/upload',
                     [
                         'class'=> 'yii\rest\UrlRule',
                         'controller' => 'users'

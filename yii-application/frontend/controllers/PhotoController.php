@@ -1,13 +1,20 @@
 <?php
+
 namespace frontend\controllers;
+
+use app\models\Photos;
 use Yii;
 use yii\filters\AccessControl;
+use yii\helpers\VarDumper;
 use yii\rest\ActiveController;
+use yii\web\UploadedFile;
 
 class PhotoController extends BaseApiController
 {
     public $modelClass = 'app\models\Photos';
-    public function behaviors() {
+
+    public function behaviors()
+    {
         $behaviors = parent::behaviors();
         $behaviors['corsFilter'] = [
             'class' => \yii\filters\Cors::className(),
@@ -22,6 +29,23 @@ class PhotoController extends BaseApiController
             'class' => \yii\filters\auth\HttpBearerAuth::className(),
         ];
         return $behaviors;
+    }
+
+
+    public function actionUpload()
+    {
+        $model = new Photos();
+        $model->file = UploadedFile::getInstanceByName('file');
+
+        $name = '/home/surizmen/works/php/desktop_tasks/yii-application/frontend/' . Yii::$app->security->generateRandomString(15) . "." . $model->file->extension;
+
+        $model->photos_path = $name;
+        if ($model->save(false)) {
+            $model->file->saveAs($name);
+            return $model;
+        }
+
+        return 1;
     }
 }
 

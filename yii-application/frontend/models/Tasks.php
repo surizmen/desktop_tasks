@@ -4,9 +4,11 @@ namespace app\models;
 
 use common\models\User;
 use Yii;
+use yii\base\InvalidCallException;
 use yii\db\ActiveRecordInterface;
+use yii\db\BaseActiveRecord;
 use yii\web\NotFoundHttpException;
-
+use yii\behaviors\TimestampBehavior;
 /**
  * This is the model class for table "tasks".
  *
@@ -46,11 +48,17 @@ class Tasks extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['tasks_title', 'tasks_city_id', 'tasks_price', 'tasks_date_upload', 'tasks_status_number', 'tasks_category_number', 'tasks_user_id'], 'required'],
+            [['tasks_title'], 'required', 'message' => 'Заполните Заголовок объявления'],
+            [['tasks_body'], 'required', 'message' => 'Заполните Описание объявления'],
+            [['tasks_city_id'], 'required', 'message' => 'Укажите свой город'],
+            [['tasks_price'], 'required', 'message' => 'Укажите цену'],
+            [['tasks_category_number'], 'required', 'message' => 'Укажите категорию товара'],
+            [[ 'tasks_price', 'tasks_date_upload', 'tasks_status_number', 'tasks_category_number', 'tasks_user_id'], 'required', 'message' => 'Заполните {attribute}'],
             [['tasks_title', 'tasks_body'], 'string'],
             [['tasks_city_id', 'tasks_status_number', 'tasks_category_number', 'tasks_photo_id', 'tasks_user_id'], 'default', 'value' => null],
             [['tasks_city_id', 'tasks_status_number', 'tasks_category_number', 'tasks_photo_id', 'tasks_user_id'], 'integer'],
-            [['tasks_price'], 'number'],
+            [['tasks_price'], 'number', 'message' => 'Цена должна быть числом'],
+            [['tasks_date_upload'], 'safe'],
             [['tasks_category_number'], 'exist', 'skipOnError' => true, 'targetClass' => Categories::className(), 'targetAttribute' => ['tasks_category_number' => 'id']],
             [['tasks_city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::className(), 'targetAttribute' => ['tasks_city_id' => 'id']],
             [['tasks_photo_id'], 'exist', 'skipOnError' => true, 'targetClass' => Photos::className(), 'targetAttribute' => ['tasks_photo_id' => 'photos_id']],
@@ -71,8 +79,8 @@ class Tasks extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'tasks_id' => 'Tasks ID',
-            'tasks_title' => 'Tasks Title',
+            'tasks_id' => 'Айди объявления',
+            'tasks_title' => 'Загловок Объявления',
             'tasks_body' => 'Tasks Body',
             'tasks_city_id' => 'Tasks City ID',
             'tasks_price' => 'Tasks Price',
@@ -144,6 +152,5 @@ class Tasks extends \yii\db\ActiveRecord
             return 0;
         }
     }
-
 
 }

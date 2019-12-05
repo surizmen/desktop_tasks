@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 use app\models\Tasks;
 use common\models\User;
+use yii\behaviors\TimestampBehavior;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveRecord;
 use Yii;
@@ -42,7 +43,16 @@ class TasksController extends BaseApiController
             //  действия "delete" и "create" и "index" только для авторизированных пользователей
             'only'=>['update','create','delete','closetask','getmytasks']
         ];
-
+        $behaviors['timestamp'] = [
+            'class' => TimestampBehavior::className(),
+            'attributes' =>  [
+                \yii\db\BaseActiveRecord::EVENT_BEFORE_INSERT => ['tasks_date_upload'],
+                \yii\db\BaseActiveRecord::EVENT_BEFORE_UPDATE => false,
+            ],
+            'value' => function(){
+                return gmdate("Y-m-d H:i:s");
+            },
+        ];
         return $behaviors;
 
     }
@@ -87,7 +97,11 @@ class TasksController extends BaseApiController
 
     public function actionCreate(){
         $model = new Tasks();
+        $user_class = new User();
         $model->load(Yii::$app->getRequest()->getBodyParams(), '');
+        $user = $user_class::findOne(["verification_token" => $user_class->Getauthtoen()]);
+        $model->tasks_user_id = $user->id;
+        $model->tasks_status_number = 1;
         $model->save();
         return $model;
     }
