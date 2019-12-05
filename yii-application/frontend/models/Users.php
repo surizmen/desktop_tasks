@@ -114,7 +114,7 @@ class Users extends \yii\db\ActiveRecord
         $user = User::findOne(['email' => $this->email]);
 
         if($user && $user->password == $this->password){
-            $user->token = Yii::$app->security->generateRandomString(30);
+            $user->verification_token = Yii::$app->security->generateRandomString(30);
             $user->save();
             return $user;
         }

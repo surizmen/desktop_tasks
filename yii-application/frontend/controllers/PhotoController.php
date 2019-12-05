@@ -37,7 +37,8 @@ class PhotoController extends BaseApiController
         $model = new Photos();
         $model->file = UploadedFile::getInstanceByName('file');
 
-        $name = '/home/surizmen/works/php/desktop_tasks/yii-application/frontend/' . Yii::$app->security->generateRandomString(15) . "." . $model->file->extension;
+
+        $name = Yii::getAlias('@app/upload/') . Yii::$app->security->generateRandomString(15) . "." . $model->file->extension;
 
         $model->photos_path = $name;
         if ($model->save(false)) {
