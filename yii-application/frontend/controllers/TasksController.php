@@ -57,17 +57,6 @@ class TasksController extends BaseApiController
 
     }
 
-    //Переопределение дата провайдера где выводит обЪявления только со статусом активные с сортировкой даты по убыванию
-//    public function get_tasks(){
-//        $query = Tasks::find()->select(['tasks_title','tasks_price','tasks_date_upload','tasks_photo_id'])->where(['tasks_status_number' => 1])
-//            ->orderBy(['tasks_date_upload' => SORT_DESC,]);
-//        return Yii::createObject(
-//            [
-//                'class' => ActiveDataProvider::class,
-//                'query' => $query
-//            ]
-//        );
-//    }
 
     public function get_tasks(){
         $searchModel = new \app\models\TasksSearch();
@@ -78,7 +67,7 @@ class TasksController extends BaseApiController
         $task = new Tasks();
         $polz = new User();
         $token = $polz->Getauthtoen();
-        $id = Yii::$app->request->post('id');
+        $id = Yii::$app->request->get('id');
         return $task->close_task($token, $id);
     }
 
@@ -106,6 +95,7 @@ class TasksController extends BaseApiController
         $user = $user_class::findOne(["verification_token" => $user_class->Getauthtoen()]);
         $model->tasks_user_id = $user->id;
         $model->tasks_status_number = 1;
+        $model->tasks_date_upload = '2019-09-10 00:00:00';
         $model->save();
         return $model;
     }

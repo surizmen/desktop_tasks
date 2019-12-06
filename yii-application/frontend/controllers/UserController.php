@@ -98,7 +98,7 @@ class UserController extends BaseApiController
         $polz = new User();
         $token = $polz->Getauthtoen();
         $user = $polz::findOne(["verification_token" => $token]);
-        $user->scenario = User::SCENARIO_USERUPDATE;
+        $polz->scenario = User::SCENARIO_USERUPDATE;
         try {
             $user->load(Yii::$app->getRequest()->getBodyParams(), '');
         } catch (InvalidConfigException $e) {

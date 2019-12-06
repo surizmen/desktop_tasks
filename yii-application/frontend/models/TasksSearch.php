@@ -2,9 +2,10 @@
 
 namespace app\models;
 
+use app\models\Tasks;
+use common\models\User;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Tasks;
 
 /**
  * TasksSearch represents the model behind the search form of `app\models\Tasks`.
@@ -74,4 +75,5 @@ class TasksSearch extends Tasks
 
         return $dataProvider;
     }
+
 }

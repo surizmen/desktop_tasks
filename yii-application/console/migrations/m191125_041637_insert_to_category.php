@@ -12,7 +12,7 @@ class m191125_041637_insert_to_category extends Migration
      */
     public function safeUp()
     {
-        $this->batchInsert('{{%categories}}',['categories_name'], [['Техника'],['Одежда']]);
+        $this->batchInsert('{{%categories}}',['categories_name'], [['недвижимость'],['транспорт'],['личные вещи'],['хобби и отдых'],['услуги'],['бытовая техника']]);
     }
 
     /**
@@ -20,7 +20,7 @@ class m191125_041637_insert_to_category extends Migration
      */
     public function safeDown()
     {
-       $this->delete('{{%categories}}', ['in', 'categories_name', ['Техника', 'Одежда']]);
+       $this->delete('{{%categories}}', ['in', 'categories_name', ['недвижимость', 'транспорт', 'личные вещи', 'хобби и отдых','услуги','бытовая техника']]);
     }
 
     /*
