@@ -1,22 +1,19 @@
 <?php
 
 namespace app\models;
-use common\models\User;
+
 use Yii;
-use yii\base\NotSupportedException;
-use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveRecord;
-use yii\web\IdentityInterface;
+
 /**
  * This is the model class for table "user".
  *
  * @property int $id
- * @property string $username
- * @property string $auth_key
- * @property string $password_hash
+ * @property string|null $username
+ * @property string|null $auth_key
+ * @property string|null $password_hash
  * @property string|null $password_reset_token
  * @property string $email
- * @property int $city_id
+ * @property int|null $city_id
  * @property int|null $avatar_id
  * @property string|null $description
  * @property string|null $telephone
@@ -31,15 +28,12 @@ use yii\web\IdentityInterface;
  */
 class Users extends \yii\db\ActiveRecord
 {
-    public $username;
-    public $email;
-    public $password;
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return '{{%user}}';
+        return 'user';
     }
 
     /**
@@ -48,12 +42,12 @@ class Users extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['auth_key', 'password_hash', 'email', 'created_at', 'updated_at'], 'required'],
+            [['email', 'created_at', 'updated_at'], 'required'],
             [['city_id', 'avatar_id', 'status', 'created_at', 'updated_at'], 'default', 'value' => null],
             [['city_id', 'avatar_id', 'status', 'created_at', 'updated_at'], 'integer'],
             [['description', 'telephone'], 'string'],
-            [['username', 'password_hash', 'password_reset_token', 'email', 'verification_token'], 'string', 'max' => 255],
-            [['auth_key'], 'string', 'max' => 32],
+            [['username', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
+            [['auth_key', 'verification_token'], 'string', 'max' => 32],
             [['email'], 'unique'],
             [['password_reset_token'], 'unique'],
             [['username'], 'unique'],
@@ -107,17 +101,5 @@ class Users extends \yii\db\ActiveRecord
     public function getAvatar()
     {
         return $this->hasOne(Photos::className(), ['photos_id' => 'avatar_id']);
-    }
-
-    public function login()
-    {
-        $user = User::findOne(['email' => $this->email]);
-
-        if($user && $user->password == $this->password){
-            $user->verification_token = Yii::$app->security->generateRandomString(30);
-            $user->save();
-            return $user;
-        }
-        return false;
     }
 }

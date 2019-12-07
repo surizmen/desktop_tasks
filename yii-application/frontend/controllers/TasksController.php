@@ -6,6 +6,7 @@ use yii\behaviors\TimestampBehavior;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveRecord;
 use Yii;
+use yii\db\Expression;
 
 class TasksController extends BaseApiController
 {
@@ -46,11 +47,11 @@ class TasksController extends BaseApiController
         $behaviors['timestamp'] = [
             'class' => TimestampBehavior::className(),
             'attributes' =>  [
-                \yii\db\BaseActiveRecord::EVENT_BEFORE_INSERT => ['tasks_date_upload'],
-                \yii\db\BaseActiveRecord::EVENT_BEFORE_UPDATE => false,
+                'createdAtAttribute' => 'tasks_date_upload',
+                'updatedAtAttribute' => false,
             ],
             'value' => function(){
-                return gmdate("Y-m-d H:i:s");
+                return date('Y-m-d H:i:s');
             },
         ];
         return $behaviors;
@@ -82,10 +83,11 @@ class TasksController extends BaseApiController
 
     public function actionGetmytasks(){
         $polz = new User();
+        $searchModel = new \app\models\TasksanotherSearch();
         $get_token = $polz->Getauthtoen();
         $user = $polz::findOne(["verification_token" => $get_token]);
-        $task = Tasks::find()->select(['tasks_title','tasks_body','tasks_photo_id','tasks_price','tasks_category_number','tasks_city_id','tasks_status_number'])->where(['tasks_user_id' => $user->id])->all();
-        return [$task];
+        $params = Yii::$app->request->queryParams;
+        return $searchModel->search($params,$user->id);
     }
 
     public function actionCreate(){
@@ -95,7 +97,7 @@ class TasksController extends BaseApiController
         $user = $user_class::findOne(["verification_token" => $user_class->Getauthtoen()]);
         $model->tasks_user_id = $user->id;
         $model->tasks_status_number = 1;
-        $model->tasks_date_upload = '2019-09-10 00:00:00';
+        $model->tasks_date_upload = date("Y-m-d H:i:s");
         $model->save();
         return $model;
     }

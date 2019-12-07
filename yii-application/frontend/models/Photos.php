@@ -6,14 +6,14 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
 use yii\web\UploadedFile;
-
+use common\models\User;
 /**
  * This is the model class for table "photos".
  *
  * @property int $photos_id
  * @property string $photos_path
  * @property Tasks[] $tasks
- * @property Users[] $users
+ * @property User[] $users
  */
 class Photos extends \yii\db\ActiveRecord
 {
@@ -61,6 +61,6 @@ class Photos extends \yii\db\ActiveRecord
      */
     public function getUsers()
     {
-        return $this->hasMany(Users::className(), ['avatar_id' => 'photos_id']);
+        return $this->hasMany(User::className(), ['avatar_id' => 'photos_id']);
     }
 }
