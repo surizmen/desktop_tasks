@@ -93,38 +93,4 @@ class TasksSearch extends Tasks
      *
      * @return ActiveDataProvider
      */
-    public function usersearch($params, $id)
-    {
-        $query = Tasks::find()->select(['tasks_title','tasks_body','tasks_photo_id','tasks_price','tasks_category_number','tasks_city_id','tasks_status_number'])->where(['tasks_user_id' => $id])->all();
-
-        // add conditions that should always apply here
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
-
-        $this->load($params,'');
-
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            $query->where('0=1');
-            return $dataProvider;
-        }
-
-        $query->andFilterWhere([
-            'tasks_id' => $this->tasks_id,
-            'tasks_city_id' => $this->tasks_city_id,
-            'tasks_price' => $this->tasks_price,
-            'tasks_date_upload' => $this->tasks_date_upload,
-            'tasks_status_number' => $this->tasks_status_number,
-            'tasks_category_number' => $this->tasks_category_number,
-            'tasks_photo_id' => $this->tasks_photo_id,
-            'tasks_user_id' => $this->tasks_user_id,
-        ]);
-
-        $query->andFilterWhere(['ilike', 'tasks_title', $this->tasks_title])
-            ->andFilterWhere(['ilike', 'tasks_body', $this->tasks_body]);
-
-        return $dataProvider;
-    }
 }

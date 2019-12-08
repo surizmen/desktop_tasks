@@ -58,7 +58,7 @@ class TasksController extends BaseApiController
 
     }
 
-
+//Поиск всех обЪявлений со статусом АКтивные, вместе с фильтрами
     public function get_tasks(){
         $searchModel = new \app\models\TasksSearch();
         return $searchModel->search(Yii::$app->request->queryParams);
