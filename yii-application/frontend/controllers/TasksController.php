@@ -74,11 +74,15 @@ class TasksController extends BaseApiController
 
     public function actionGettask(){
         $get_id = Yii::$app->request->get('id');
-        $task = Tasks::findOne(['tasks_id' => $get_id]);
-        $user = User::findOne(['id'=> $task->tasks_user_id]);
-        unset($task['tasks_id'],$task['tasks_status_number'],
-            $task['tasks_user_id'],$user['id'],$user['updated_at'],$user['city_id'],$user['status'],$user['verification_token']);
-        return [$task,$user];
+        if (  $task = Tasks::findOne(['tasks_id' => $get_id]))
+        {        $user = User::findOne(['id'=> $task->tasks_user_id]);
+            unset($task['tasks_id'],$task['tasks_status_number'],
+                $task['tasks_user_id'],$user['id'],$user['updated_at'],$user['city_id'],$user['status'],$user['verification_token']);
+            return [$task,$user];}
+        else {
+            return 'Такого объявления нет';
+        }
+
     }
 
     public function actionGetmytasks(){
