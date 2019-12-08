@@ -42,6 +42,7 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'tasks/<page>'=> 'tasks/index',
                     'POST /auth' => 'user/login',
                     'POST /image' => 'photo/upload',
                     [
