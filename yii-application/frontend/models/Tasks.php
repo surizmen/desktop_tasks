@@ -144,7 +144,7 @@ class Tasks extends \yii\db\ActiveRecord
                 }
             else return 'У Вас нет прав закрыть это объявление';
             }
-            else return 'Не передал айди поста';
+            else return 'Не найдено объявление с таким айди';
         }
         else {
             return 0;
