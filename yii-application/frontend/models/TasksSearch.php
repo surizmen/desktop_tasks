@@ -6,7 +6,7 @@ use app\models\Tasks;
 use common\models\User;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-
+use Yii;
 /**
  * TasksSearch represents the model behind the search form of `app\models\Tasks`.
  */
@@ -48,6 +48,16 @@ class TasksSearch extends Tasks
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                // Размер выводимых элементов на страницу.
+                // Беру из настроек своего модуля blog
+                'pageSize' => '20',
+                // Размер эл-тов на страницу по умолчанию. Зачем нужен - поясню после кода
+                'defaultPageSize' => '20',
+                // Так подавляется ссылка на первую страницу вида /category-name-х/1/
+                // Вместо неё выведется  /category-name-х/
+                'forcePageParam' => false,
+            ]
         ]);
 
         $this->load($params,'');
