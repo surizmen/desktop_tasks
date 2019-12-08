@@ -8,6 +8,7 @@ use yii\db\ActiveRecord;
 use Yii;
 use yii\db\Expression;
 
+//ТАскконтроллер это наследуемый класс от BaseApiCOntroller
 class TasksController extends BaseApiController
 {
     public $modelClass = Tasks::class;
@@ -28,8 +29,9 @@ class TasksController extends BaseApiController
     }
 
     public function behaviors() {
+        //НАследуем поведения родителя
         $behaviors = parent::behaviors();
-
+//Подключаем авторизацию
         $behaviors['corsFilter'] = [
             'class' => \yii\filters\Cors::className(),
             'cors' => [
@@ -63,7 +65,7 @@ class TasksController extends BaseApiController
         $searchModel = new \app\models\TasksSearch();
         return $searchModel->search(Yii::$app->request->queryParams);
     }
-
+//Экшон сакрытия своих постов по id
     public function actionClosetask(){
         $task = new Tasks();
         $polz = new User();
@@ -71,7 +73,7 @@ class TasksController extends BaseApiController
         $id = Yii::$app->request->get('id');
         return $task->close_task($token, $id);
     }
-
+//Экшон получения определённого поста по id
     public function actionGettask(){
         $get_id = Yii::$app->request->get('id');
         if (  $task = Tasks::findOne(['tasks_id' => $get_id]))
@@ -85,6 +87,7 @@ class TasksController extends BaseApiController
 
     }
 
+//Экшон получения своих постов
     public function actionGetmytasks(){
         $polz = new User();
         $searchModel = new \app\models\TasksanotherSearch();
@@ -93,7 +96,7 @@ class TasksController extends BaseApiController
         $params = Yii::$app->request->queryParams;
         return $searchModel->search($params,$user->id);
     }
-
+//Экшон создания поста
     public function actionCreate(){
         $model = new Tasks();
         $user_class = new User();
@@ -105,7 +108,7 @@ class TasksController extends BaseApiController
         $model->save();
         return $model;
     }
-
+//Экшон обновления поста
     public function actionUpdate($id)
     {
         $user_class = new User();

@@ -31,12 +31,12 @@ class PhotoController extends BaseApiController
         return $behaviors;
     }
 
-
+//Функция загрузки фото
     public function actionUpload()
     {
         $model = new Photos();
         $model->file = UploadedFile::getInstanceByName('file');
-
+//ЗАсовываем фото по такому пути /frontend/uploads
         $name = Yii::getAlias('@app/upload/') . Yii::$app->security->generateRandomString(15) . "." . $model->file->extension;
 
         $model->photos_path = $name;
