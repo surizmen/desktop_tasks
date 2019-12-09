@@ -32,7 +32,6 @@ use yii\behaviors\TimestampBehavior;
 class Tasks extends \yii\db\ActiveRecord
 {
     const SCENARIO_UPDATE = 'update';
-
     /**
      * {@inheritdoc}
      */
