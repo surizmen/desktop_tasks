@@ -75,12 +75,13 @@ class TasksController extends BaseApiController
     }
 //Экшон получения определённого поста по id
     public function actionGettask(){
+        $count = new Tasks();
         $get_id = Yii::$app->request->get('id');
         if (  $task = Tasks::findOne(['tasks_id' => $get_id]))
         {        $user = User::findOne(['id'=> $task->tasks_user_id]);
             unset($task['tasks_id'],$task['tasks_status_number'],
                 $task['tasks_user_id'],$user['id'],$user['updated_at'],$user['city_id'],$user['status'],$user['verification_token']);
-            return [$task,$user];}
+            return [$task,$user,['Кол-во постов пользователя'=>$count->countposts($get_id)]];}
         else {
             return 'Такого объявления нет';
         }

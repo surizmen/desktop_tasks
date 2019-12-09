@@ -32,6 +32,7 @@ use yii\behaviors\TimestampBehavior;
 class Tasks extends \yii\db\ActiveRecord
 {
     const SCENARIO_UPDATE = 'update';
+    public $count;
     /**
      * {@inheritdoc}
      */
@@ -148,6 +149,10 @@ class Tasks extends \yii\db\ActiveRecord
         else {
             return 0;
         }
+    }
+
+    public function countposts($id){
+        return  $this->find()->where(['tasks_user_id' => $id])->count();
     }
 
 }
