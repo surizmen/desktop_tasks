@@ -83,7 +83,7 @@ class TasksController extends BaseApiController
                 $task['tasks_user_id'],$user['id'],$user['updated_at'],$user['city_id'],$user['status'],$user['verification_token']);
             return [$task,$user,$task->tasksCategoryNumber,$task->tasksCity,$task->tasks_photo_id,['Кол-во постов пользователя'=>$count->countposts($get_id)]];}
         else {
-            return 'Такого объявления нет';
+            return ['message' => 'Такого объявления нет'];
         }
 
     }
