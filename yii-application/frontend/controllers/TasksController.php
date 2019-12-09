@@ -81,7 +81,7 @@ class TasksController extends BaseApiController
         {        $user = User::findOne(['id'=> $task->tasks_user_id]);
             unset($task['tasks_id'],$task['tasks_status_number'],
                 $task['tasks_user_id'],$user['id'],$user['updated_at'],$user['city_id'],$user['status'],$user['verification_token']);
-            return [$task,$user,['Кол-во постов пользователя'=>$count->countposts($get_id)]];}
+            return [$task,$user,$task->tasksCategoryNumber,$task->tasksCity,$task->tasks_photo_id,['Кол-во постов пользователя'=>$count->countposts($get_id)]];}
         else {
             return 'Такого объявления нет';
         }
@@ -95,7 +95,7 @@ class TasksController extends BaseApiController
         $get_token = $polz->Getauthtoen();
         $user = $polz::findOne(["verification_token" => $get_token]);
         $params = Yii::$app->request->queryParams;
-        return $searchModel->search($params,$user->id);
+        return [$searchModel->search($params,$user->id)];
     }
 
 //Экшон создания поста

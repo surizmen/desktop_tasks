@@ -42,7 +42,6 @@ class TasksanotherSearch extends Tasksanother
     public function search($params,$id)
     {
         $query = Tasks::find()->select(['tasks_title','tasks_body','tasks_photo_id','tasks_price','tasks_category_number','tasks_city_id','tasks_status_number','tasks_date_upload'])->where(['tasks_user_id' => $id])->orderBy(['tasks_date_upload' => SORT_DESC,]);
-
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
