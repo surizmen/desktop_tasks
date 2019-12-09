@@ -97,6 +97,7 @@ class TasksController extends BaseApiController
         $params = Yii::$app->request->queryParams;
         return $searchModel->search($params,$user->id);
     }
+
 //Экшон создания поста
     public function actionCreate(){
         $model = new Tasks();
@@ -131,15 +132,15 @@ class TasksController extends BaseApiController
                            $model->save();
                             return $model;
                         }
-                        else return 'Вы не можете изменить уже закрытое оъявление';
+                        else return ['message' =>'Вы не можете изменить уже закрытое оъявление'];
                     }
-                    else return 'У Вас нет прав изменить это объявление';
+                    else return ['message' => 'У Вас нет прав изменить это объявление'];
                 }
-                else return 'Не передал айди поста';
+                else return ['message' => 'Не передал айди поста'];
             }
         $method = $_SERVER['REQUEST_METHOD'];
         if ($model->save() === false && !$model->hasErrors() OR $method!=='PUT') {
-            return 'Нe удалось обновить данные поста!';
+            return ['message' =>  'Нe удалось обновить данные поста!'];
         }
         return $model;
     }
