@@ -43,7 +43,7 @@ class TasksSearch extends Tasks
     public function search($params)
     {
         $query = Tasks::find()->select(['tasks_title','tasks_price','tasks_date_upload','tasks_photo_id'])->where(['tasks_status_number' => 1])->orderBy(['tasks_date_upload' => SORT_DESC,]);
-        $another= new Tasks();
+
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([

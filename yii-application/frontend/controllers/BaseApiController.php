@@ -25,7 +25,6 @@ class BaseApiController extends ActiveController
     public function behaviors() {
 //ФОрмат данных json
         return [
-
             'contentNegotiator' => [
                 'class' => \yii\filters\ContentNegotiator::class,
                 'formatParam' => '_format',

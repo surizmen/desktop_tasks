@@ -7,6 +7,7 @@ use yii\data\ActiveDataProvider;
 use yii\db\ActiveRecord;
 use Yii;
 use yii\db\Expression;
+use yii\db\Query;
 
 //ТАскконтроллер это наследуемый класс от BaseApiCOntroller
 class TasksController extends BaseApiController
@@ -87,6 +88,15 @@ class TasksController extends BaseApiController
         }
 
     }
+    //Тестовый экшн для реализации join запросов
+    public  function  actionKek(){
+        $query = new Query();
+        $get_id = Yii::$app->request->get('id');
+        $query->select('*')->from('tasks')->join('LEFT JOIN','categories','categories.id = tasks.tasks_category_number')->join('JOIN','{{user}}','public.user.id = tasks.tasks_user_id')->join('LEFT JOIN','{{photos}}','photos.photos_id = tasks.tasks_photo_id')->where(['tasks_id' => $get_id])->one();
+        $comsmand = $query->createCommand();
+        $resp = $comsmand->query();
+        return $resp;
+    }
 
 //Экшон получения своих постов
     public function actionGetmytasks(){
@@ -95,7 +105,8 @@ class TasksController extends BaseApiController
         $get_token = $polz->Getauthtoen();
         $user = $polz::findOne(["verification_token" => $get_token]);
         $params = Yii::$app->request->queryParams;
-        return [$searchModel->search($params,$user->id)];
+        $temp = $searchModel->search($params,$user->id);
+        return $temp;
     }
 
 //Экшон создания поста

@@ -75,11 +75,13 @@
       <path value="$PROJECT_DIR$/yii-application/vendor/yiisoft/yii2-gii" />
       <path value="$PROJECT_DIR$/yii-application/vendor/yiisoft/yii2-debug" />
       <path value="$PROJECT_DIR$/yii-application/vendor/guzzlehttp/psr7" />
+      <path value="$PROJECT_DIR$/yii-application/vendor/yiithings/yii2-dotenv" />
+      <path value="$PROJECT_DIR$/yii-application/vendor/vlucas/phpdotenv" />
     </include_path>
   </component>
   <component name="PhpUnit">
     <phpunit_settings>
-      <PhpUnitSettings load_method="CUSTOM_LOADER" custom_loader_path="$PROJECT_DIR$/yii-application/vendor/autoload.php" />
+      <PhpUnitSettings custom_loader_path="$PROJECT_DIR$/yii-application/vendor/autoload.php" />
     </phpunit_settings>
   </component>
 </project>

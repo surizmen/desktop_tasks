@@ -46,31 +46,38 @@ class UserController extends BaseApiController
     }
 
 
-//Экшн Регистрации
+    //Экшн Регистрации
     public function actionSignup()
     {
-
         $user = new User();
         $user->email = Yii::$app->request->post('email');
         $user->setPassword(Yii::$app->request->post('password'));
         $user->generateAuthKey();
-        if (Yii::$app->request->post('email')!== ''){
-        if (Yii::$app->request->post('password')!== ''){
-            if (User::findOne(["email" => $user->email])){
-                return 'Такой email уже существует!';
-
-            } else {            if($user->validate()){
-                if($user->save()){
-                    return 'Регистрация прошла успешно';
+        if (Yii::$app->request->post('email')!== '')
+        {
+            if (Yii::$app->request->post('password')!== '')
+            {
+                if (User::findOne(["email" => $user->email])){
+                    return 'Такой email уже существует!';
                 }
-                return ['message' => $user->firstErrors];
+                else
+                {
+                    if($user->validate()){
+                        if($user->save())
+                        {
+                            return 'Регистрация прошла успешно';
+                        }
+                        return ['message' => $user->getErrors()];
+                    }
+                }
             }
-                }
-
-
+            else
+            {
+                return ['message' => 'Не ввёл пароль!'];
+            }
         }
-        else {return ['message' => 'Не ввёл пароль!'];}}
-        else {
+        else
+        {
            return ['message' => 'Не ввёл email!'];
         }
     }
